@@ -23,7 +23,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='page'>
       <header>
         <h1>Movies Search</h1>
         <form onSubmit={handleSubmit}>
@@ -33,8 +33,8 @@ function App() {
             type='text'
             placeholder='Avengers, Matrix, Guardians of Galaxy Vol. 3'
           />
-          {error && <p style={{ border: 'white', color: 'red' }}>{error}</p>}
           <button>Search</button>
+          {error && <p style={{ border: 'white', color: 'red' }}>{error}</p>}
         </form>
       </header>
       <main>

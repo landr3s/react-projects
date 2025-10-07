@@ -6,17 +6,18 @@ interface Props {
 }
 function ListOfMovies({ movies }: Props) {
   return (
-    <ul>
+    <ul className='movies'>
       {movies.map((movie) => (
-        <li key={movie.id}>
+        <li
+          key={movie.id}
+          className='movie-card'
+        >
+          <img
+            src={movie.img}
+            alt={movie.title}
+          />
           <h4>{movie.title}</h4>
-          <span>{movie.year}</span>
-          <div>
-            <img
-              src={movie.img}
-              alt={movie.title}
-            />
-          </div>
+          <p>{movie.year}</p>
         </li>
       ))}
     </ul>
