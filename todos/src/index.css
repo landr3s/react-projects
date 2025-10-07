@@ -1,0 +1,10 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  display: grid;
+  place-content: center;
+  height: 100%;
+  font-family: system-ui;
+}
