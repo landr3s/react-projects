@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
-import type { Movie, MovieMapped, Search } from '../types'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import type { MovieMapped } from '../types'
 import { getMovies } from '../services/getMovies'
 
 interface props {
@@ -9,16 +9,21 @@ interface props {
 
 export const useMovies = ({ search, sort }: props) => {
   const [movies, setMovies] = useState<MovieMapped[]>([])
+  const searchRef = useRef(search)
 
-  const searchMovies = () => {
-    getMovies({ search }).then((newMovies) => setMovies(newMovies))
-  }
+  const searchMovies = useCallback(async (search: string) => {
+    if (searchRef.current === search) return
+    getMovies({ search }).then((newMovies) => {
+      searchRef.current = search
+      setMovies(newMovies)
+    })
+  }, [])
 
-  const getSortedMovies = useCallback(() => {
+  const sortedMovies = useMemo(() => {
     return sort
       ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
       : movies
   }, [movies, sort])
 
-  return { getSortedMovies, searchMovies }
+  return { movies: sortedMovies, searchMovies }
 }

@@ -2,24 +2,37 @@ import './App.css'
 import Movies from './components/Movies.tsx'
 import { useMovies } from './hooks/useMovies.ts'
 import { useSearch } from './hooks/useSearch.ts'
-import { useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
+import debounce from 'just-debounce-it'
 
 function App() {
   const [sort, setSort] = useState(false)
 
-  const { search, error, updateSearch } = useSearch()
-  const { getSortedMovies, searchMovies } = useMovies({ search, sort })
-  const movies = getSortedMovies()
+  const { search, error, setSearch } = useSearch()
+  const { movies, searchMovies } = useMovies({ search, sort })
+
+  const debouncedMovies = useCallback(
+    debounce((search: string) => {
+      searchMovies(search)
+    }, 2000),
+    []
+  )
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    searchMovies()
+    searchMovies(search)
   }
 
   const toggleSort = () => {
     setSort(!sort)
   }
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearch = event.target.value
+    if (newSearch.startsWith(' ')) return
+    setSearch(newSearch)
+    debouncedMovies(newSearch)
+  }
   return (
     <div className='page'>
       <header>
@@ -27,7 +40,7 @@ function App() {
         <form onSubmit={handleSubmit}>
           <input
             value={search}
-            onChange={updateSearch}
+            onChange={handleChange}
             type='text'
             placeholder='Avengers, Matrix, Guardians of Galaxy Vol. 3'
           />

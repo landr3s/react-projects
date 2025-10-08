@@ -5,16 +5,12 @@ export const useSearch = () => {
   const isFirstInput = useRef(true)
   const [error, setError] = useState<null | string>(null)
 
-  const updateSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuery = event.target.value
-    if (newQuery.startsWith(' ')) return
-
-    isFirstInput.current = search === ''
-    setSearch(event.target.value)
-  }
-
   useEffect(() => {
-    if (isFirstInput.current) return setError(null)
+    if (isFirstInput.current) {
+      isFirstInput.current = search === ''
+      return
+    }
+    if (search === '') return setError('Cannot search an empty movie')
     if (search.length < 3) {
       return setError('Movie must be 3 characters or more')
     }
@@ -22,5 +18,5 @@ export const useSearch = () => {
     setError(null)
   }, [search])
 
-  return { search, updateSearch, error, setSearch }
+  return { search, error, setSearch }
 }
