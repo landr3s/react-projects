@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react'
 import './App.css'
 import Movies from './components/Movies.tsx'
-import responseMovies from './mocks/responseMovies.json'
 import { useMovies } from './hooks/useMovies.ts'
+import { useSearch } from './hooks/useSearch.ts'
+import { useRef, useState } from 'react'
 
 function App() {
-  const movies = responseMovies.Search
+  const [sort, setSort] = useState(false)
 
-  const mappedMovies = movies.map((movie) => ({
-    id: movie.imdbID,
-    title: movie.Title,
-    img: movie.Poster,
-    year: movie.Year
-  }))
-
-  const { search, error, updateSearch, setSearch } = useMovies()
+  const { search, error, updateSearch } = useSearch()
+  const { getSortedMovies, searchMovies } = useMovies({ search, sort })
+  const movies = getSortedMovies()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(search)
-    setSearch('')
+    searchMovies()
+  }
+
+  const toggleSort = () => {
+    setSort(!sort)
   }
 
   return (
@@ -34,11 +32,16 @@ function App() {
             placeholder='Avengers, Matrix, Guardians of Galaxy Vol. 3'
           />
           <button>Search</button>
+          <input
+            type='checkbox'
+            checked={sort}
+            onChange={toggleSort}
+          />
           {error && <p style={{ border: 'white', color: 'red' }}>{error}</p>}
         </form>
       </header>
       <main>
-        <Movies movies={mappedMovies} />
+        <Movies movies={movies} />
       </main>
     </div>
   )

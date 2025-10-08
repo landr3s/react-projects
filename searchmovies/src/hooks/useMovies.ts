@@ -1,22 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import type { Movie, MovieMapped, Search } from '../types'
+import { getMovies } from '../services/getMovies'
 
-export const useMovies = () => {
-  const [search, setSearch] = useState('')
-  const [error, setError] = useState<null | string>(null)
+interface props {
+  search: string
+  sort: boolean
+}
 
-  const updateSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuery = event.target.value
-    if (newQuery.startsWith(' ')) return
-    setSearch(event.target.value)
+export const useMovies = ({ search, sort }: props) => {
+  const [movies, setMovies] = useState<MovieMapped[]>([])
+
+  const searchMovies = () => {
+    getMovies({ search }).then((newMovies) => setMovies(newMovies))
   }
 
-  useEffect(() => {
-    if (search.length < 3) {
-      return setError('Movie must be 3 characters or more')
-    }
+  const getSortedMovies = useCallback(() => {
+    return sort
+      ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
+      : movies
+  }, [movies, sort])
 
-    setError(null)
-  }, [search])
-
-  return { search, updateSearch, error, setSearch }
+  return { getSortedMovies, searchMovies }
 }
