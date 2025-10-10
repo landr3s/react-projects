@@ -1,78 +1,42 @@
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
   padding: 2rem;
-  background: #121212;
+  text-align: center;
 }
 
-.product-card {
-  background: #1e1e1e;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  transition: transform 150ms ease, box-shadow 150ms ease;
-  border: 1px solid #2a2a2a;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  background: #242424;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.product-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  padding: 1rem;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-.product-image img {
-  max-height: 100%;
-  object-fit: contain;
-  max-width: 100%;
+.card {
+  padding: 2em;
 }
 
-.product-info {
-  flex: 1;
-  text-align: left;
-  padding: 0.5rem 0;
-  color: #ffffff;
-}
-
-.product-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
-}
-
-.product-price {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #ffb800; /* dorado tipo Amazon */
-}
-
-.product-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffb800;
-  gap: 0.5rem;
-  border: none;
-  border-radius: 1rem;
-  padding: 0.6rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 150ms ease;
-}
-
-.product-btn:hover {
-  background: #e0a600;
+.read-the-docs {
+  color: #888;
 }

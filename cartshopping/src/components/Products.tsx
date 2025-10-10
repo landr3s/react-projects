@@ -1,41 +1,34 @@
-import type { Product } from '../types'
 import { AddToCartIcon } from './Icons'
+import type { Product } from '../types'
 
-interface props {
+interface ProductsProps {
   products: Product[]
 }
 
-function Products({ products }: props) {
+export default function Products({ products }: ProductsProps) {
   return (
-    <main className='products'>
+    <section className='grid auto-rows-fr grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
       {products.map((product) => (
         <article
+          className='flex flex-col p-4 bg-neutral-900 rounded-lg shadow hover:scale-[1.02] transition gap-2'
           key={product.id}
-          className='product-card'
         >
-          <div className='product-image'>
+          <div className='h-32 flex items-center justify-center'>
             <img
               src={product.image}
               alt={product.title}
-              loading='lazy'
+              className='object-contain max-h-full'
             />
           </div>
-
-          <div className='product-info'>
-            <h3 className='product-title'>{product.title}</h3>
-            <p className='product-price'>${product.price}</p>
+          <div className='flex flex-1 text-center flex-col items-center'>
+            <h3 className='font-semibold text-lg'>{product.title}</h3>
+            <p className='font-bold text-xl'>${product.price}</p>
           </div>
-
-          <button
-            className='product-btn'
-            aria-label={`Añadir ${product.title} al carrito`}
-          >
-            <AddToCartIcon /> Añadir
+          <button className='cursor-pointer bg-blue-600 hover:bg-blue-700 transition px-4 py-2 rounded-full flex flex-col items-center gap-2 w-full'>
+            <AddToCartIcon />
           </button>
         </article>
       ))}
-    </main>
+    </section>
   )
 }
-
-export default Products

@@ -1,46 +1,60 @@
-import React, { useId, useState } from 'react'
+import { useId } from 'react'
+import useFilters from '../hooks/useFilters'
 
-function Filters({ onChange }) {
-  const [minPrice, setMinPrice] = useState(0)
-  const minPriceFilterId = useId()
-  const categoryFilterId = useId()
+function Filters() {
+  const { filters, setFilters } = useFilters()
+
+  const minPriceId = useId()
+  const categoryId = useId()
 
   const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMinPrice(e.target.value)
-    onChange((prevState) => ({
-      ...prevState,
-      minPrice: e.target.value
+    setFilters((prev) => ({
+      ...prev,
+      minPrice: +e.target.value
     }))
   }
 
-  const handleChangeCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange((prevState) => ({
-      ...prevState,
+  const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilters((prev) => ({
+      ...prev,
       category: e.target.value
     }))
   }
+
   return (
-    <section>
-      <div>
-        <label htmlFor={minPriceFilterId}>Price: </label>
+    <section className='flex justify-between items-center flex-wrap gap-4'>
+      <div className='flex items-center gap-2'>
+        <label
+          htmlFor={minPriceId}
+          className='font-medium'
+        >
+          Price:
+        </label>
         <input
           type='range'
-          id={minPriceFilterId}
-          min='0'
-          max='1000'
+          min={0}
+          max={1000}
+          value={filters.minPrice}
           onChange={handleChangeMinPrice}
-          value={minPrice}
+          id={minPriceId}
+          className='accent-blue-500'
         />
-        <span>${minPrice}</span>
+        <span>${filters.minPrice}</span>
       </div>
-      <div>
-        <label htmlFor={categoryFilterId}>Category:</label>
-        <select
-          id={categoryFilterId}
-          onChange={handleChangeCategory}
+      <div className='flex gap-2 items-center'>
+        <label
+          htmlFor={categoryId}
+          className='font-medium'
         >
+          Category:
+        </label>
+        <select
+          id={categoryId}
+          onChange={handleChangeCategory}
+          className='bg-neutral-800 p-1 rounded'
+        >
+          <option value="men's clothing">Men's clothing</option>
           <option value='jewelery'>Jewelery</option>
-          <option value="men's clothing">Men's Clothing</option>
         </select>
       </div>
     </section>

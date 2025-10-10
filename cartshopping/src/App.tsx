@@ -1,25 +1,19 @@
-import { useState } from 'react'
-import './App.css'
+import Footer from './components/Footer'
+import Header from './components/Header'
 import Products from './components/Products'
 import { useProducts } from './hooks/useProducts'
-import Header from './components/Header'
 
 function App() {
   const { products } = useProducts()
-  const [filters, setFilters] = useState({
-    category: 'all',
-    minPrice: 0
-  })
-  const sortedProducts = products.filter((product) => {
-    return (
-      product.price >= filters.minPrice &&
-      (filters.category === 'all' || product.category === filters.category)
-    )
-  })
   return (
-    <div>
-      <Header onChange={setFilters} />
-      <Products products={sortedProducts} />
+    <div className=' min-h-[100vh] bg-black text-white p-2'>
+      <div className='max-w-4xl mx-auto flex flex-col gap-4'>
+        <Header />
+        <main className='flex-1'>
+          <Products products={products} />
+        </main>
+        <Footer />
+      </div>
     </div>
   )
 }

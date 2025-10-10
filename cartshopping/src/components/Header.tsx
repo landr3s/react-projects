@@ -1,10 +1,11 @@
+import React from 'react'
 import Filters from './Filters'
 
-function Header({ onChange }) {
+function Header() {
   return (
-    <header>
-      <h1>Shopping Cart</h1>
-      <Filters onChange={onChange} />
+    <header className='text-center mb-4'>
+      <h1 className='text-3xl font-bold'>Cart Shopping</h1>
+      <Filters />
     </header>
   )
 }
