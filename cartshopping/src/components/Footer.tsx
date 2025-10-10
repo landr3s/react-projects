@@ -1,8 +1,9 @@
 import React from 'react'
 import useFilters from '../hooks/useFilters'
+import { useCart } from '../hooks/useCart'
 
 export default function Footer() {
-  const { filters } = useFilters()
+  const { cart } = useCart()
   return (
     <footer
       className='
@@ -17,9 +18,7 @@ export default function Footer() {
     '
     >
       <h4 className='flex m-0 opacity-80'>Filters debugger:</h4>
-      <h5 className='flex m-0 opacity-80'>
-        {JSON.stringify(filters, null, 2)}
-      </h5>
+      <h5 className='flex m-0 opacity-80'>{JSON.stringify(cart, null, 2)}</h5>
     </footer>
   )
 }
