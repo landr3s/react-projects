@@ -53,6 +53,7 @@ function Filters() {
           onChange={handleChangeCategory}
           className='bg-neutral-800 p-1 rounded'
         >
+          <option value='all'>All</option>
           <option value="men's clothing">Men's clothing</option>
           <option value='jewelery'>Jewelery</option>
         </select>

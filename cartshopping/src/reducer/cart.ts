@@ -1,9 +1,15 @@
 import { ACTION_TYPES, type CartAction, type CartState } from '../types'
 
-export const cartInitialState: CartState = JSON.parse(
-  window.localStorage.getItem('cart') ?? '[]'
-)
+export const cartInitialState: CartState = (() => {
+  const stored = window.localStorage.getItem('cart')
+  try {
+    return stored ? JSON.parse(stored) : []
+  } catch {
+    return []
+  }
+})()
 
+export const emptyCart: CartState = []
 // update localStorage with state for car
 
 export const updateLocalStorage = (state: CartState) => {
@@ -41,8 +47,9 @@ export const cartReducer = (
       return newState
     }
     case ACTION_TYPES.CLEAR_CART: {
-      updateLocalStorage([])
-      return []
+      const emptyCart: CartState = []
+      updateLocalStorage(emptyCart)
+      return emptyCart
     }
     default:
       return state

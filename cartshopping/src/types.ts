@@ -8,10 +8,6 @@ export interface Product {
   quantity: number
 }
 
-export interface Cart {
-  products: Product[]
-}
-
 // Cart reducer types
 
 export const ACTION_TYPES = {
@@ -20,14 +16,14 @@ export const ACTION_TYPES = {
   CLEAR_CART: 'CLEAR_CART'
 } as const
 
-export type CartProduct = Product & { quantity: number }
-
-export type CartState = CartProduct[]
-
 export type CartAction =
   | { type: typeof ACTION_TYPES.ADD_TO_CART; payload: Product }
   | { type: typeof ACTION_TYPES.REMOVE_FROM_CART; payload: Product }
   | { type: typeof ACTION_TYPES.CLEAR_CART }
+
+export type CartProduct = Product & { quantity: number }
+
+export type CartState = CartProduct[]
 
 export interface CartContextType {
   cart: CartState
